@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Components\TokenBucketLimiter;
 use App\Repository\ProductRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,14 +18,14 @@ use Symfony\Component\Routing\Attribute\Route;
 class ProductListApiController extends AbstractController
 {
     /**
-     * Constructor for the ProductListApiController.
-     *
-     * @param LoggerInterface   $logger     the logger service for logging errors and information
-     * @param ProductRepository $repository the repository service for accessing product data
+     * @param LoggerInterface $logger
+     * @param ProductRepository $repository
+     * @param TokenBucketLimiter $limiter
      */
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly ProductRepository $repository,
+        private readonly TokenBucketLimiter $limiter,
     ) {
     }
 
@@ -38,6 +39,11 @@ class ProductListApiController extends AbstractController
     #[Cache(maxage: 0, public: false, mustRevalidate: true)]
     public function __invoke(Request $request): JsonResponse
     {
+        if (!$this->limiter->allowRequest()) {
+            $this->logger->info('Rate limit exceeded');
+            return $this->json(['error' => 'Rate limit exceeded'], Response::HTTP_TOO_MANY_REQUESTS);
+        }
+
         $this->logger->info('Fetching products');
         try {
             $products = $this->repository->findAll();

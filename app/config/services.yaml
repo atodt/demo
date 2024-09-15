@@ -22,3 +22,16 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\Components\TokenBucketLimiter:
+        arguments:
+            - '@Memcached'
+            - 'request_limit'
+            - '100'
+            - '1.667'
+
+    Memcached:
+        class: Memcached
+        calls:
+            - addServer:
+                - 'app-memcached'
+                - '11211'

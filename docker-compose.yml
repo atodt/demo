@@ -42,6 +42,14 @@ services:
     networks:
       - my_network
 
+  app-memcached:
+    image: memcached:1.6-alpine
+    container_name: app-memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - my_network
+
 volumes:
   mariadb_data:
 
