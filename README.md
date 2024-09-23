@@ -1,8 +1,8 @@
-# DreamRobot REST API Project
+# REST API Project
 
 ## Overview
 
-DreamRobot is a Docker-based application designed to help you build a PHP application with a REST API. This project involves creating a MariaDB container, developing a PHP application with a REST API, packaging the PHP application in a container, and implementing a rate-limit feature.
+This is a Docker-based application designed to help you build a PHP application with a REST API. This project involves creating a MariaDB container, developing a PHP application with a REST API, packaging the PHP application in a container, and implementing a rate-limit feature.
 
 ## Tasks
 
