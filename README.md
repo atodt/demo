@@ -30,7 +30,7 @@ Follow the steps below to set up the project:
 
 1. **Clone the repository:**
     ```sh
-    git clone https://github.com/atodt/DR.git app
+    git clone https://github.com/atodt/demo.git app
     cd app
     ```
 
